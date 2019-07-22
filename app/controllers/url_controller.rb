@@ -17,6 +17,9 @@ class UrlController < ApplicationController
 
   def find_by_short
     @url = Url.find_by_short(params[:id])
+
+    UpdateCountJob.perform_later(@url.original) # Create a job and do not block the user and scale through a queue
+
     redirect_to @url ? @url.original : urls_url
   end
 
@@ -24,7 +27,13 @@ class UrlController < ApplicationController
     original_url = params[:url]
     @new_url = Url.new(count: 0, original: original_url)
 
-    message = @new_url.generated? ? "Url generated:  " + @new_url.get_full_short_url(urls_url) : "Error generating URL"
+    if @new_url.generated?
+      message = "Url generated:  " + @new_url.get_full_short_url(urls_url)
+      TitleCrawlerJob.perform_later(@new_url.original)
+    else
+      message = "Error generating URL"
+    end
+
     begin
       render action: "create", message: message
     rescue

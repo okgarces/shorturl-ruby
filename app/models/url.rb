@@ -1,4 +1,5 @@
 require 'digest'
+require 'cgi'
 
 class Url < ApplicationRecord
 
@@ -17,7 +18,7 @@ class Url < ApplicationRecord
   def generate_short
     initial=0
     end_url = 8
-    digest = Digest::MD5.base64digest(self.original)
+    digest = CGI::escape(Digest::MD5.base64digest(self.original))
     possible_short = ""
 
     for i in 0..digest.size-end_url do
