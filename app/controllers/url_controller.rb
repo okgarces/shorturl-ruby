@@ -18,9 +18,13 @@ class UrlController < ApplicationController
   def find_by_short
     @url = Url.find_by_short(params[:id])
 
-    UpdateCountJob.perform_later(@url.original) # Create a job and do not block the user and scale through a queue
+    if @url
+      UpdateCountJob.perform_later(@url.original) # Create a job and do not block the user and scale through a queue
+      redirect_to @url.original
+    else
+      redirect_to urls_url
+    end
 
-    redirect_to @url ? @url.original : urls_url
   end
 
   def create
