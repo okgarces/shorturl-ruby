@@ -1,22 +1,31 @@
 
-<h1>Top 100 URLs</h1>
-<table>
-  <thead>
-  <tr>
-    <th>Title</th>
-    <th>Original</th>
-    <th> Short URL </th>
-    <th> Count </th>
-  </tr>
-  </thead>
-<tbody>
-<% @urls.each do |url| %>
-  <tr>
-    <td> <%= url.title %> </td>
-    <td> <%= url.original %> </td>
-    <td> <%= url.short %> </td>
-    <td> <%= url.count %> </td>
-  </tr>
-<% end %>
-</tbody>
-</table>
+<div class="row">
+<div class="col-md-2"></div>
+  <div class="col-md-8">
+    <h1>Top 100 URLs</h1>
+    <table class="table table-striped">
+      <thead>
+      <tr>
+        <th>Title</th>
+        <th>Original</th>
+        <th> Short URL </th>
+        <th> Count </th>
+      </tr>
+      </thead>
+      <tbody>
+      <% @urls.each do |url| %>
+        <tr>
+          <td> <%= url.title %> </td>
+          <td> <%= url.original %> </td>
+          <td> <%= url.short %> </td>
+          <td> <%= url.count %> </td>
+        </tr>
+      <% end %>
+      </tbody>
+    </table>
+  </div>
+<div class="col-md-2"> </div>
+</div>
+
+
+
